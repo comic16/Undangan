@@ -293,56 +293,16 @@ function copyRek(no){
 
 const API_URL = "https://script.google.com/macros/s/AKfycbwMkBhp_j6ihTThz1KN2LwTHCFyPzm9pRzO64rdjdcLW87-lWcq_IOiCysuf8trkYo3/exec";
 
-/* KIRIM UCAPAN */
-function kirimUcapan(){
-  let nama = document.getElementById("namaUcapan").value;
-  let pesan = document.getElementById("pesanUcapan").value;
-
-  if(!nama || !pesan){
-    alert("Isi dulu ya");
-    return;
-  }
-
-  fetch(API_URL, {
-    method: "POST",
-    body: new URLSearchParams({
-      nama: nama,
-      pesan: pesan
+/* kirim ucapan */
+function kirim(){
+  fetch("https://script.google.com/macros/s/AKfycbwMkBhp_j6ihTThz1KN2LwTHCFyPzm9pRzO64rdjdcLW87-lWcq_IOiCysuf8trkYo3/exec", {
+    method:"POST",
+    body:JSON.stringify({
+      nama:document.getElementById("nama").value,
+      pesan:document.getElementById("pesan").value
     })
-  })
-  .then(res => res.text())
-  .then(() => {
-    document.getElementById("namaUcapan").value="";
-    document.getElementById("pesanUcapan").value="";
-    tampilUcapan();
-  });
+  }).then(()=>alert("Terkirim"));
 }
-
-/* TAMPILKAN UCAPAN */
-function tampilUcapan(){
-  document.getElementById("listUcapan").innerHTML = "Memuat...";
-
-  fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    let html = "";
-
-    data.reverse().forEach(d => {
-      html += `
-      <div style="background:#fff;padding:10px;margin:5px;border-radius:10px;">
-        <b>${d.nama}</b><br>${d.pesan}
-      </div>`;
-    });
-
-    document.getElementById("listUcapan").innerHTML = html;
-  });
-}
-
-/* LOAD AWAL */
-document.addEventListener("DOMContentLoaded", function(){
-  tampilUcapan();
-  setInterval(tampilUcapan, 5000);
-});
 
 </script>
 </body>
