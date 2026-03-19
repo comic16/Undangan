@@ -299,12 +299,16 @@ function kirimUcapan(){
   }
 
   fetch(API_URL, {
-    method:"POST",
-    body: JSON.stringify({
-      nama: nama,
-      pesan: pesan
-    })
+  method:"POST",
+  mode:"no-cors",  // 🔥 WAJIB
+  headers:{
+    "Content-Type":"application/json"
+  },
+  body: JSON.stringify({
+    nama: nama,
+    pesan: pesan
   })
+})
   .then(res => res.text())
   .then(() => {
     alert("Ucapan berhasil dikirim ❤️");
