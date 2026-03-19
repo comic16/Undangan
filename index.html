@@ -171,7 +171,11 @@ function openInvite(){
 
 /* NAMA */
 const urlParams = new URLSearchParams(window.location.search);
-document.getElementById("namaTamu").innerText = urlParams.get('to') || "Para Undangan";
+window.onload = function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  document.getElementById("namaTamu").innerText =
+    urlParams.get('to') || "Para Undangan";
+};
 
 /* LOVE */
 function loveEffect(){
@@ -221,21 +225,20 @@ function kirimUcapan(){
 
   fetch(API_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: `nama=${encodeURIComponent(nama)}&pesan=${encodeURIComponent(pesan)}`
-  })
-  .then(() => {
-    alert("Ucapan terkirim ❤️");
-    document.getElementById("namaUcapan").value="";
-    document.getElementById("pesanUcapan").value="";
-    setTimeout(loadUcapan,1000);
-  })
-  .catch(err => {
-    alert("Gagal kirim");
-    console.log(err);
+    mode: "no-cors", // 🔥 INI KUNCI
+    body: JSON.stringify({
+      nama: nama,
+      pesan: pesan
+    })
   });
+
+  // ⚠️ jangan pakai .then/.catch
+  alert("Ucapan terkirim ❤️");
+
+  document.getElementById("namaUcapan").value="";
+  document.getElementById("pesanUcapan").value="";
+
+  setTimeout(loadUcapan,1000);
 }
 
 /* LOAD UCAPAN */
