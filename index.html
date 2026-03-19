@@ -289,25 +289,12 @@ function copyRek(no){
 /* UCAPAN */
 
 </script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<script>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBRaRv89Atvntg4UWBroXIRHP8jZtmWnts",
-  authDomain: "ucapan-d27c5.firebaseapp.com",
-  projectId: "ucapan-d27c5",
-  storageBucket: "ucapan-d27c5.firebasestorage.app",
-  messagingSenderId: "51414511165",
-  appId: "1:51414511165:web:e1e40a0790c7e440e70454"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const API_URL = "https://script.google.com/macros/s/AKfycbwMkBhp_j6ihTThz1KN2LwTHCFyPzm9pRzO64rdjdcLW87-lWcq_IOiCysuf8trkYo3/exec";
 
 /* KIRIM UCAPAN */
-window.kirimUcapan = async function(){
+function kirimUcapan(){
   let nama = document.getElementById("namaUcapan").value;
   let pesan = document.getElementById("pesanUcapan").value;
 
@@ -316,32 +303,47 @@ window.kirimUcapan = async function(){
     return;
   }
 
-  await addDoc(collection(db, "ucapan"), {
-    nama: nama,
-    pesan: pesan,
-    waktu: Date.now()
+  fetch(API_URL, {
+    method: "POST",
+    body: new URLSearchParams({
+      nama: nama,
+      pesan: pesan
+    })
+  })
+  .then(res => res.text())
+  .then(() => {
+    document.getElementById("namaUcapan").value="";
+    document.getElementById("pesanUcapan").value="";
+    tampilUcapan();
   });
-
-  document.getElementById("namaUcapan").value="";
-  document.getElementById("pesanUcapan").value="";
-};
+}
 
 /* TAMPILKAN UCAPAN */
-const q = query(collection(db, "ucapan"), orderBy("waktu","desc"));
+function tampilUcapan(){
+  document.getElementById("listUcapan").innerHTML = "Memuat...";
 
-document.getElementById("listUcapan").innerHTML = "Memuat ucapan...";
+  fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+    let html = "";
 
-onSnapshot(q, (snapshot)=>{
-  let html="";
-  snapshot.forEach(doc=>{
-    let d = doc.data();
-    html += `<div style="background:#fff;padding:10px;margin:5px;border-radius:10px;">
-      <b>${d.nama}</b><br>${d.pesan}
-    </div>`;
+    data.reverse().forEach(d => {
+      html += `
+      <div style="background:#fff;padding:10px;margin:5px;border-radius:10px;">
+        <b>${d.nama}</b><br>${d.pesan}
+      </div>`;
+    });
+
+    document.getElementById("listUcapan").innerHTML = html;
   });
+}
 
-  document.getElementById("listUcapan").innerHTML = html;
+/* LOAD AWAL */
+document.addEventListener("DOMContentLoaded", function(){
+  tampilUcapan();
+  setInterval(tampilUcapan, 5000);
 });
+
 </script>
 </body>
 </html>
