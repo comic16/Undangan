@@ -286,24 +286,38 @@ function copyRek(no){
   setTimeout(()=>notif.style.display="none",2000);
 }
 
-/* UCAPAN */
-
-</script>
 <script>
-
 const API_URL = "https://script.google.com/macros/s/AKfycbwMkBhp_j6ihTThz1KN2LwTHCFyPzm9pRzO64rdjdcLW87-lWcq_IOiCysuf8trkYo3/exec";
 
 /* kirim ucapan */
-function kirim(){
-  fetch("https://script.google.com/macros/s/AKfycbwMkBhp_j6ihTThz1KN2LwTHCFyPzm9pRzO64rdjdcLW87-lWcq_IOiCysuf8trkYo3/exec", {
-    method:"POST",
-    body:JSON.stringify({
-      nama:document.getElementById("nama").value,
-      pesan:document.getElementById("pesan").value
-    })
-  }).then(()=>alert("Terkirim"));
-}
+function kirimUcapan(){
+  const nama = document.getElementById("namaUcapan").value;
+  const pesan = document.getElementById("pesanUcapan").value;
 
+  if(!nama || !pesan){
+    alert("Isi nama dan ucapan dulu ya!");
+    return;
+  }
+
+  fetch(API_URL, {
+    method:"POST",
+    body: JSON.stringify({
+      nama: nama,
+      pesan: pesan
+    })
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("Ucapan berhasil dikirim ❤️");
+
+    document.getElementById("namaUcapan").value = "";
+    document.getElementById("pesanUcapan").value = "";
+  })
+  .catch(err => {
+    alert("Gagal kirim 😢");
+    console.log(err);
+  });
+}
 </script>
 </body>
 </html>
