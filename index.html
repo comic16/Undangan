@@ -1,265 +1,198 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta property="og:title" content="Undangan Pernikahan Hendri & Rahima">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta property="og:title" content="Undangan Pernikahan Hendri & Rahima">
 <meta property="og:description" content="Kami mengundang Anda untuk hadir di hari bahagia kami.">
 <meta property="og:image" content="https://comic16.github.io/Undangan/cover.jpg">
 <meta property="og:url" content="https://comic16.github.io/Undangan/">
 <meta property="og:type" content="website">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Undangan Hendri & Rahima</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: sans-serif;
-}
-
-body.lock {
-  overflow: hidden;
-}
+body { margin:0; font-family:sans-serif; }
+body.lock { overflow:hidden; }
 
 .section {
-  width: 100%;
-  height: 100vh;
-  position: relative; /* 🔥 tambah */
-  transition: all 0.8s ease;
+  width:100%;
+  height:100vh;
+  position:relative;
 }
 
-/* 🔥 FIX GAMBAR */
 img.bg {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none; /* 🔥 ini kunci */
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  pointer-events:none;
 }
 
-/* 🔥 FIX TOMBOL */
 .btn {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 25px;
-  background: #e91e63;
-  color: white;
-  border-radius: 30px;
-  border: none;
-  font-size: 16px;
-  z-index: 10; /* 🔥 biar di atas */
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 25px;
+  background:#e91e63;
+  color:white;
+  border-radius:30px;
+  border:none;
+  font-size:16px;
+  z-index:10;
 }
 
-/* ✨ TRANSISI PREMIUM */
 .zoom-out {
-  transform: scale(1.3);
-  filter: blur(10px);
-  opacity: 0;
+  transform:scale(1.3);
+  opacity:0;
 }
 
-/* FLASH */
 #flash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  opacity: 0;
-  z-index: -1; /* 🔥 ubah dari 9999 */
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:white;
+  opacity:0;
+  z-index:-1;
 }
 
-.flash-show {
-  animation: flashAnim 0.8s ease;
+.flash-show { animation:flash 0.8s; }
+
+@keyframes flash {
+  0%{opacity:0;}
+  30%{opacity:1;}
+  100%{opacity:0;}
 }
 
-@keyframes flashAnim {
-  0% {opacity: 0;}
-  30% {opacity: 1;}
-  100% {opacity: 0;}
-}
-
-/* LOVE */
-.love {
-  position: absolute;
-  bottom:10%;
-  font-size: 20px;
-  animation: loveUp 3s ease-out forwards;
-  z-index: 9999;
-}
-
-@keyframes loveUp {
-  0% {transform: translateY(0) scale(1); opacity:1;}
-  100% {transform: translateY(-400px) scale(1.8); opacity:0;}
-}
-
-/* COUNTDOWN */
 #countdown {
-  position: absolute;
-  bottom: 55%;
-  width: 100%;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
+  position:absolute;
+  bottom:55%;
+  width:100%;
+  text-align:center;
+  font-weight:bold;
 }
 
-/* NOTIF */
 #notif {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform:
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:black;
+  color:white;
+  padding:10px;
+  border-radius:20px;
+  display:none;
+}
+
+.hide-first { display:none; }
+
+/* UCAPAN STYLE */
+.ucapan-item{
+  background:rgba(255,255,255,0.9);
+  margin:5px;
+  padding:10px;
+  border-radius:10px;
+  font-size:14px;
+}
 </style>
 </head>
 
 <body class="lock">
 
 <audio id="music" loop>
-  <source src="musik.mp3" type="audio/mp3">
+<source src="musik.mp3">
 </audio>
 
 <div id="flash"></div>
 
 <!-- HALAMAN 1 -->
 <div class="section" id="halaman1">
-  <img src="1.png" class="bg">
-  <button class="btn" style="bottom:18%;" onclick="openInvite()">Buka Undangan</button>
+<img src="1.png" class="bg">
+<button class="btn" style="bottom:18%;" onclick="openInvite()">Buka Undangan</button>
 </div>
 
 <!-- HALAMAN 2 -->
 <div class="section">
-  <img src="2.png" class="bg">
-  <div id="namaTamu" style="position:absolute;bottom:20%;width:100%;text-align:center;font-weight:bold;"></div>
+<img src="2.png" class="bg">
+<div id="namaTamu" style="position:absolute;bottom:20%;width:100%;text-align:center;font-weight:bold;"></div>
 </div>
 
 <!-- HALAMAN 3 -->
 <div class="section">
-  <img src="3.png" class="bg">
-  <button class="btn" style="bottom:5%;" onclick="loveEffect()">❤️ Klik Love</button>
+<img src="3.png" class="bg">
+<button class="btn" style="bottom:5%;" onclick="loveEffect()">❤️ Klik Love</button>
 </div>
 
 <!-- HALAMAN 4 -->
 <div class="section">
-  <img src="4.png" class="bg">
-  <div id="countdown"></div>
-  <button class="btn" style="bottom:2%;" onclick="openMap()">Buka Lokasi</button>
+<img src="4.png" class="bg">
+<div id="countdown"></div>
+<button class="btn" style="bottom:2%;" onclick="openMap()">Buka Lokasi</button>
 </div>
 
 <!-- HALAMAN 5 -->
 <div class="section">
-  <img src="5.png" class="bg">
-
-  <button class="btn" style="bottom:53%; left:5%; transform:none;" onclick="copyRek('081998155294')">
-    Salin DANA
-  </button>
-
-  <button class="btn" style="bottom:18%; left:5%; transform:none;" onclick="copyRek('106820583551')">
-    Salin JAGO
-  </button>
+<img src="5.png" class="bg">
+<button class="btn" style="bottom:53%;left:5%;transform:none;" onclick="copyRek('081998155294')">Salin DANA</button>
+<button class="btn" style="bottom:18%;left:5%;transform:none;" onclick="copyRek('106820583551')">Salin JAGO</button>
 </div>
 
 <!-- HALAMAN 6 -->
 <div class="section">
-  <img src="6.png" class="bg">
+<img src="6.png" class="bg">
 
-  <div style="position:absolute;top:20%;width:100%;text-align:center;">
-    <input id="namaUcapan" placeholder="Nama"
-      style="width:80%;padding:10px;margin:5px;border-radius:10px;border:none;"><br>
+<div style="position:absolute;top:20%;width:100%;text-align:center;">
+<input id="namaUcapan" placeholder="Nama" style="width:80%;padding:10px;margin:5px;border-radius:10px;"><br>
+<textarea id="pesanUcapan" placeholder="Ucapan & doa" style="width:80%;padding:10px;margin:5px;border-radius:10px;height:80px;"></textarea><br>
+<button class="btn" onclick="kirimUcapan()">Kirim</button>
+</div>
 
-    <textarea id="pesanUcapan" placeholder="Ucapan & doa"
-      style="width:80%;padding:10px;margin:5px;border-radius:10px;border:none;height:80px;"></textarea><br>
-
-    <button class="btn" onclick="kirimUcapan()">Kirim</button>
-  </div>
-
-  <div id="listUcapan" style="
-    position:absolute;
-    bottom:5%;
-    width:100%;
-    max-height:40%;
-    overflow:auto;
-    padding:10px;">
-  </div>
+<div id="listUcapan" style="position:absolute;bottom:5%;width:100%;max-height:40%;overflow:auto;padding:10px;"></div>
 </div>
 
 <div id="notif"></div>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwMkBhp_j6ihTThz1KN2LwTHCFyPzm9pRzO64rdjdcLW87-lWcq_IOiCysuf8trkYo3/exec";
 
-document.addEventListener("DOMContentLoaded", function(){
+/* OPEN */
+function openInvite(){
+  document.getElementById("halaman1").classList.add("zoom-out");
+  document.getElementById("flash").classList.add("flash-show");
 
-  /* OPEN INVITE */
-  window.openInvite = function(){
-    let halaman1 = document.getElementById("halaman1");
-    let flash = document.getElementById("flash");
+  let music = document.getElementById("music");
+  music.play().catch(()=>{});
 
-    halaman1.classList.add("zoom-out");
-    flash.classList.add("flash-show");
+  setTimeout(()=>{
+    document.body.classList.remove("lock");
+    document.getElementById("halaman1").classList.add("hide-first");
+  },800);
+}
 
-    let music = document.getElementById("music");
-    music.volume = 0;
-    music.play().catch(()=>{});
+/* NAMA */
+const urlParams = new URLSearchParams(window.location.search);
+document.getElementById("namaTamu").innerText = urlParams.get('to') || "Para Undangan";
 
-    let vol = 0;
-    let fade = setInterval(()=>{
-      if(vol < 1){
-        vol += 0.05;
-        music.volume = vol;
-      } else clearInterval(fade);
-    },200);
-
-    setTimeout(()=>{
-      document.body.classList.remove("lock");
-      halaman1.classList.add("hide-first");
-      window.scrollTo(0,0);
-    },800);
-  };
-
-  /* NAMA TAMU */
-  const urlParams = new URLSearchParams(window.location.search);
-  const nama = urlParams.get('to') || "Para Undangan";
-
-  let targetNama = document.getElementById("namaTamu");
-  if(targetNama){
-    targetNama.innerText = nama;
-  }
-
-});
-
-/* LOVE EFFECT */
+/* LOVE */
 function loveEffect(){
   const section = document.querySelectorAll('.section')[2];
-
-  for(let i=0;i<15;i++){
-    setTimeout(()=>{
-      let love = document.createElement("div");
-      love.className="love";
-
-      const icons = ["❤️","💖","💘","💝"];
-      love.innerHTML = icons[Math.floor(Math.random()*icons.length)];
-
-      love.style.left = (45 + Math.random()*10)+"%";
-
-      section.appendChild(love);
-
-      setTimeout(()=>love.remove(),3000);
-    }, i*120);
+  for(let i=0;i<10;i++){
+    let love=document.createElement("div");
+    love.innerHTML="❤️";
+    love.style.position="absolute";
+    love.style.left=(40+Math.random()*20)+"%";
+    love.style.bottom="10%";
+    section.appendChild(love);
+    setTimeout(()=>love.remove(),2000);
   }
 }
 
 /* COUNTDOWN */
 const target = new Date("April 11, 2026 08:00:00").getTime();
-
 setInterval(()=>{
-  const now = new Date().getTime();
-  const jarak = target - now;
-
-  const d = Math.floor(jarak/(1000*60*60*24));
-  const h = Math.floor((jarak%(1000*60*60*24))/(1000*60*60));
-  const m = Math.floor((jarak%(1000*60*60))/(1000*60));
-  const s = Math.floor((jarak%(1000*60))/1000);
-
-  document.getElementById("countdown").innerHTML =
-  d+" Hari "+h+" Jam "+m+" Menit "+s+" Detik";
+  let now=new Date().getTime();
+  let d=Math.floor((target-now)/(1000*60*60*24));
+  document.getElementById("countdown").innerHTML=d+" Hari Lagi";
 },1000);
 
 /* MAP */
@@ -267,52 +200,67 @@ function openMap(){
   window.open("https://maps.app.goo.gl/hPbYL5FsRjt7p9HGA");
 }
 
-/* COPY REK */
+/* COPY */
 function copyRek(no){
   navigator.clipboard.writeText(no);
-
-  let notif = document.getElementById("notif");
-  notif.innerText = "Berhasil disalin: "+no;
+  let notif=document.getElementById("notif");
+  notif.innerText="Disalin: "+no;
   notif.style.display="block";
-
   setTimeout(()=>notif.style.display="none",2000);
 }
 
-const API_URL = "https://script.google.com/macros/s/AKfycbwMkBhp_j6ihTThz1KN2LwTHCFyPzm9pRzO64rdjdcLW87-lWcq_IOiCysuf8trkYo3/exec";
-
-/* kirim ucapan */
+/* KIRIM */
 function kirimUcapan(){
   const nama = document.getElementById("namaUcapan").value;
   const pesan = document.getElementById("pesanUcapan").value;
 
   if(!nama || !pesan){
-    alert("Isi nama dan ucapan dulu ya!");
+    alert("Isi dulu!");
     return;
   }
 
   fetch(API_URL, {
-  method:"POST",
-  mode:"no-cors",  // 🔥 WAJIB
-  headers:{
-    "Content-Type":"application/json"
-  },
-  body: JSON.stringify({
-    nama: nama,
-    pesan: pesan
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: `nama=${encodeURIComponent(nama)}&pesan=${encodeURIComponent(pesan)}`
   })
-})
-  .then(res => res.text())
   .then(() => {
-    alert("Ucapan berhasil dikirim ❤️");
-
-    document.getElementById("namaUcapan").value = "";
-    document.getElementById("pesanUcapan").value = "";
+    alert("Ucapan terkirim ❤️");
+    document.getElementById("namaUcapan").value="";
+    document.getElementById("pesanUcapan").value="";
+    setTimeout(loadUcapan,1000);
   })
   .catch(err => {
-    alert("Gagal kirim 😢");
+    alert("Gagal kirim");
     console.log(err);
   });
 }
+
+/* LOAD UCAPAN */
+function loadUcapan(){
+  fetch(API_URL + "?t=" + new Date().getTime()) // 🔥 anti cache
+  .then(res => res.json())
+  .then(data => {
+    const list = document.getElementById("listUcapan");
+    list.innerHTML = "";
+
+    data.reverse().forEach(d => {
+      let div = document.createElement("div");
+      div.className = "ucapan-item";
+      div.innerHTML = "<b>"+d.nama+"</b><br>"+d.pesan;
+      list.appendChild(div);
+    });
+  })
+  .catch(err => {
+    console.log("Gagal load ucapan:", err);
+  });
+}
+
+/* AUTO LOAD */
+setTimeout(loadUcapan,1000);
 </script>
+
 </body>
 </html>
