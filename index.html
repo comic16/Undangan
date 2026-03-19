@@ -287,7 +287,27 @@ function copyRek(no){
 }
 
 /* UCAPAN */
-function kirimUcapan(){
+
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBRaRv89Atvntg4UWBroXIRHP8jZtmWnts",
+  authDomain: "ucapan-d27c5.firebaseapp.com",
+  projectId: "ucapan-d27c5",
+  storageBucket: "ucapan-d27c5.firebasestorage.app",
+  messagingSenderId: "51414511165",
+  appId: "1:51414511165:web:e1e40a0790c7e440e70454"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* KIRIM UCAPAN */
+window.kirimUcapan = async function(){
   let nama = document.getElementById("namaUcapan").value;
   let pesan = document.getElementById("pesanUcapan").value;
 
@@ -296,32 +316,32 @@ function kirimUcapan(){
     return;
   }
 
-  let data = JSON.parse(localStorage.getItem("ucapan")) || [];
-  data.push({nama,pesan});
-  localStorage.setItem("ucapan", JSON.stringify(data));
-
-  tampilUcapan();
+  await addDoc(collection(db, "ucapan"), {
+    nama: nama,
+    pesan: pesan,
+    waktu: Date.now()
+  });
 
   document.getElementById("namaUcapan").value="";
   document.getElementById("pesanUcapan").value="";
-}
+};
 
-function tampilUcapan(){
-  let data = JSON.parse(localStorage.getItem("ucapan")) || [];
+/* TAMPILKAN UCAPAN */
+const q = query(collection(db, "ucapan"), orderBy("waktu","desc"));
+
+document.getElementById("listUcapan").innerHTML = "Memuat ucapan...";
+
+onSnapshot(q, (snapshot)=>{
   let html="";
-
-  data.reverse().forEach(d=>{
+  snapshot.forEach(doc=>{
+    let d = doc.data();
     html += `<div style="background:#fff;padding:10px;margin:5px;border-radius:10px;">
       <b>${d.nama}</b><br>${d.pesan}
     </div>`;
   });
 
   document.getElementById("listUcapan").innerHTML = html;
-}
-
-tampilUcapan();
-
+});
 </script>
-
 </body>
 </html>
