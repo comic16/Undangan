@@ -13,6 +13,22 @@
 <title>Undangan Hendri & Rahima</title>
 
 <style>
+  #musicBtn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 999;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50%;
+  font-size: 18px;
+  transition: 0.3s;
+}
+#musicBtn:hover {
+  transform: scale(1.1);
+}
 body { margin:0; font-family:sans-serif; }
 body.lock { overflow:hidden; }
 
@@ -103,6 +119,9 @@ img.bg {
 <source src="musik.mp3">
 </audio>
 
+<!-- 🔊 TOMBOL MUSIK -->
+<button id="musicBtn" onclick="toggleMusic()">🔇</button>
+
 <div id="flash"></div>
 
 <!-- HALAMAN 1 -->
@@ -163,6 +182,10 @@ function openInvite(){
   let music = document.getElementById("music");
   music.play().catch(()=>{});
 
+  // 🔥 sinkron tombol
+  isPlaying = true;
+  document.getElementById("musicBtn").innerHTML = "🔊";
+
   setTimeout(()=>{
     document.body.classList.remove("lock");
     document.getElementById("halaman1").classList.add("hide-first");
@@ -190,7 +213,20 @@ function loveEffect(){
     setTimeout(()=>love.remove(),2000);
   }
 }
+function toggleMusic(){
+  let music = document.getElementById("music");
+  let btn = document.getElementById("musicBtn");
 
+  if(isPlaying){
+    music.pause();
+    btn.innerHTML = "🔇";
+  } else {
+    music.play();
+    btn.innerHTML = "🔊";
+  }
+
+  isPlaying = !isPlaying;
+}
 /* COUNTDOWN */
 const target = new Date("April 11, 2026 08:00:00").getTime();
 setInterval(()=>{
